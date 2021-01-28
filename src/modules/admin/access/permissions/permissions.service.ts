@@ -12,10 +12,10 @@ import {
 import {
     PaginationRequest,
     PaginationResponse
-} from '../../../../common/pagination';
-import { PermissionExistsException } from '../../../../common/exeptions';
+} from '@common/pagination';
+import { PermissionExistsException } from '@common/exeptions';
 import { PermissionEntity } from './permission.entity';
-import { DBErrorCode } from '../../../../common/enums';
+import { DBErrorCode } from '@common/enums';
 import { PermissionMapper } from './permission.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
