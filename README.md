@@ -81,6 +81,7 @@ src
 │   ├── enums
 │   ├── exeptions
 │   ├── interceptors
+│   ├── mocks
 │   └── pagination
 ├── config
 │   ├── swagger.config.ts
