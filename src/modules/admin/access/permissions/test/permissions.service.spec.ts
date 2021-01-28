@@ -12,7 +12,7 @@ import { PermissionsService } from '../permissions.service';
 import { PermissionResponseDto } from '../dtos';
 import { PermissionEntity } from '../permission.entity';
 import { PermissionMapper } from '../permission.mapper';
-import { PermissionFactory } from '../permission-enitity.factory';
+import { PermissionFactory } from './permission-enitity.factory';
 import { PaginationRequest, PaginationResponse } from '../../../../../common/pagination';
 import { PermissionExistsException } from '../../../../../common/exeptions';
 import { DbUniqueConstraintError } from '../../../../../common/mocks';
