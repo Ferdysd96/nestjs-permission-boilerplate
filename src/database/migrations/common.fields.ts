@@ -2,14 +2,14 @@ import { TableColumnOptions } from 'typeorm/schema-builder/options/TableColumnOp
 
 export const commonFields: TableColumnOptions[] = [
   {
-    name: 'inserted_at',
-    type: 'timestamp',
+    name: 'created_at',
+    type: 'timestamp with time zone',
     isNullable: false,
     default: 'now()',
   },
   {
     name: 'updated_at',
-    type: 'timestamp',
+    type: 'timestamp with time zone',
     isNullable: false,
     default: 'now()',
   },

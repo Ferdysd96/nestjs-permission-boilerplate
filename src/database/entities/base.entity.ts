@@ -1,19 +1,20 @@
-import { Column } from 'typeorm';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export abstract class BaseEntity{
-  @Column({
-    name: 'inserted_at',
-    type: 'timestamp',
-    default: () => 'now()',
+export abstract class BaseEntity {
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp with time zone',
+    default: 'now()',
     update: false,
     nullable: false
   })
-  insertedAt: Date;
+  createdAt: Date;
 
-  @Column({
+  @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamp',
-    default: () => 'now()',
+    type: 'timestamp with time zone',
+    default: 'now()',
+    onUpdate: 'now()',
     nullable: false
   })
   updatedAt: Date;
