@@ -38,7 +38,7 @@ export class UsersService {
      * @param pagination {PaginationRequest}
      * @returns {Promise<PaginationResponse<UserResponseDto>>}
      */
-    public async getAllUsers(pagination: PaginationRequest): Promise<PaginationResponse<UserResponseDto>> {
+    public async getUsers(pagination: PaginationRequest): Promise<PaginationResponse<UserResponseDto>> {
 
         const {
             userEntities,

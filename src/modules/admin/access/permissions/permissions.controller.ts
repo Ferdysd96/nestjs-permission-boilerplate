@@ -69,7 +69,7 @@ export class PermissionsController {
         'admin.access.permissions.update'
     )
     @Get()
-    public getAllPermissions(
+    public getPermissions(
         @PaginationParams() pagination: PaginationRequest,
     ): Promise<PaginationResponse<PermissionResponseDto>> {
         return this.permissionsService.getPermissions(pagination);

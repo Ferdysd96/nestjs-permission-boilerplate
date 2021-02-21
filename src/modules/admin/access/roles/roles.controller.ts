@@ -64,7 +64,7 @@ export class RolesController {
         'admin.access.roles.update'
     )
     @Get()
-    public getAllRoles(
+    public getRoles(
         @PaginationParams() pagination: PaginationRequest,
     ): Promise<PaginationResponse<RoleResponseDto>> {
         return this.RolesService.getRoles(pagination);
