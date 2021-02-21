@@ -10,58 +10,59 @@ import {
     PermissionResponseDto,
 } from './dtos';
 import {
+    PaginationResponse,
     PaginationRequest,
-    PaginationResponse
 } from '@common/pagination';
+import { PermissionsRepository } from './permissions.repository';
 import { PermissionExistsException } from '@common/exeptions';
-import { PermissionEntity } from './permission.entity';
-import { DBErrorCode } from '@common/enums';
 import { PermissionMapper } from './permission.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DBErrorCode } from '@common/enums';
 import { TimeoutError } from 'rxjs';
 
 @Injectable()
 export class PermissionsService {
     constructor(
-        @InjectRepository(PermissionEntity)
-        private permissionsRepository: Repository<PermissionEntity>,
+        @InjectRepository(PermissionsRepository)
+        private permissionsRepository: PermissionsRepository,
     ) { }
 
     /**
      * Get a paginated permission list
      * @param pagination {PaginationRequest}
+     * @returns {Promise<PaginationResponse<PermissionResponseDto>>}
      */
-    public async getAllPermissions(pagination: PaginationRequest): Promise<PaginationResponse<PermissionResponseDto>> {
-        const { skip, limit: take, order, params: { search } } = pagination;
-        const query = this.permissionsRepository.createQueryBuilder()
-            .skip(skip)
-            .take(take)
-            .orderBy(order);
+    public async getPermissions(pagination: PaginationRequest): Promise<PaginationResponse<PermissionResponseDto>> {
+        try {
+            const {
+                permissionEntities,
+                totalPermissions
+            } = await this.permissionsRepository.getPermissionsAndCount(pagination);
 
-        if (search) {
-            query.where('description ILIKE :search OR slug ILIKE :search', { search: `%${search}%` });
+            if (!permissionEntities?.length || totalPermissions === 0) {
+                throw new NotFoundException();
+            }
+            const permissionDtos = await Promise.all(
+                permissionEntities.map(PermissionMapper.toDto),
+            );
+            return PaginationResponse.of(
+                pagination,
+                totalPermissions,
+                permissionDtos,
+            );
+        } catch (error) {
+            if (error instanceof TimeoutError) {
+                throw new RequestTimeoutException();
+            } else {
+                throw new InternalServerErrorException();
+            }
         }
-
-        const totalPermissions = await query.getCount();
-        const permissionEntities = await query.getMany();
-
-        if (!permissionEntities?.length || totalPermissions === 0) {
-            throw new NotFoundException();
-        }
-        const permissionDtos = await Promise.all(
-            permissionEntities.map(PermissionMapper.toDto),
-        );
-        return PaginationResponse.of(
-            pagination,
-            totalPermissions,
-            permissionDtos,
-        );
     }
 
     /**
      * Get permission by id
      * @param id {number}
+     * @returns {Promise<PermissionResponseDto>}
      */
     public async getPermissionById(id: number): Promise<PermissionResponseDto> {
         const permissionEntity = await this.permissionsRepository.findOne(id);
@@ -75,6 +76,7 @@ export class PermissionsService {
     /**
      * Create new permission
      * @param permissionDto {CreatePermissionRequestDto}
+     * @returns {Promise<PermissionResponseDto>}
      */
     public async createPermission(permissionDto: CreatePermissionRequestDto): Promise<PermissionResponseDto> {
         try {
@@ -97,6 +99,7 @@ export class PermissionsService {
      * Update permission by id
      * @param id {number}
      * @param permissionDto {UpdatePermissionRequestDto}
+     * @returns {Promise<PermissionResponseDto>}
      */
     public async updatePermission(id: number, permissionDto: UpdatePermissionRequestDto): Promise<PermissionResponseDto> {
 

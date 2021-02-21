@@ -1,36 +1,36 @@
 
-import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 import { ErrorType } from '@common/enums';
 import {
+    InvalidCredentialsException,
     DisabledUserException,
-    InvalidCredentialsException
 } from '@common/exeptions';
-import { HashHelper } from '@helpers';
 import { UserStatus } from '@admin/access/users/user-status.enum';
 import { UserEntity } from '@admin/access/users/user.entity';
 import {
     AuthCredentialsRequestDto,
-    JwtPayload,
     LoginResponseDto,
+    JwtPayload,
 } from '../dtos';
-import { TokenService } from './token.service';
+import { UsersRepository } from '@modules/admin/access/users/users.repository';
 import { UserMapper } from '@admin/access/users/users.mapper';
+import { TokenService } from './token.service';
+import { HashHelper } from '@helpers';
 
 @Injectable()
 export class AuthService {
 
     constructor(
-        @InjectRepository(UserEntity)
-        private usersRepository: Repository<UserEntity>,
+        @InjectRepository(UsersRepository)
+        private usersRepository: UsersRepository,
         private tokenService: TokenService,
     ) { }
 
     /**
      * User authentication
      * @param authCredentialsDto {AuthCredentialsRequestDto}
-     * @returns 
+     * @returns {Promise<LoginResponseDto>}
      */
     public async login({ username, password }: AuthCredentialsRequestDto): Promise<LoginResponseDto> {
 

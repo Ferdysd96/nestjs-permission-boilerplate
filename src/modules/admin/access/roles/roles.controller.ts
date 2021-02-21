@@ -67,7 +67,7 @@ export class RolesController {
     public getAllRoles(
         @PaginationParams() pagination: PaginationRequest,
     ): Promise<PaginationResponse<RoleResponseDto>> {
-        return this.RolesService.getAllRoles(pagination);
+        return this.RolesService.getRoles(pagination);
     }
 
     @ApiOperation({ description: 'Get role by id' })

@@ -14,7 +14,7 @@ export class PaginationResponse<T> {
    * @param PaginationRequest {PaginationRequest} 
    * @param totalRecords {number}
    * @param dtos {t[]}
-   * @returns Pagination response
+   * @returns {PaginationResponse}
    */
   static of<T>(
     { limit, page, skip }: PaginationRequest,

@@ -1,23 +1,21 @@
-
+import { UsersRepository } from '@modules/admin/access/users/users.repository';
 import {
     Injectable,
     Logger,
 } from '@nestjs/common';
+import { UserStatus } from '@admin/access/users/user-status.enum';
+import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserStatus } from '@admin/access/users/user-status.enum';
-import { UserEntity } from '@admin/access/users/user.entity';
-import { Repository } from 'typeorm';
 import {
+    RefreshTokenExpiredException,
     AccessTokenExpiredException,
     InvalidTokenException,
-    RefreshTokenExpiredException
 } from '@common/exeptions';
 import {
+    ValidateTokenResponseDto,
     JwtPayload,
     TokenDto,
-    ValidateTokenResponseDto
 } from '../dtos';
 import {
     TokenError,
@@ -28,8 +26,8 @@ import {
 export class TokenService {
 
     constructor(
-        @InjectRepository(UserEntity) 
-        private usersRepository: Repository<UserEntity>,
+        @InjectRepository(UsersRepository) 
+        private usersRepository:UsersRepository,
         private jwtService: JwtService,
         private configService: ConfigService,
     ) { }

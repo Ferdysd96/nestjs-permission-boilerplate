@@ -11,53 +11,40 @@ import {
     UserResponseDto,
 } from './dtos';
 import {
+    PaginationResponse,
     PaginationRequest,
-    PaginationResponse
 } from '@common/pagination';
 import {
     InvalidCurrentPasswordException,
     ForeignKeyConflictException,
     UserExistsException,
 } from '@common/exeptions';
-import { DBErrorCode } from '@common/enums';
+import { UsersRepository } from './users.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DBErrorCode } from '@common/enums';
 import { UserMapper } from './users.mapper';
-import { Repository } from 'typeorm';
-import { TimeoutError } from 'rxjs';
-import { UserEntity } from './user.entity';
 import { HashHelper } from '@helpers';
+import { TimeoutError } from 'rxjs';
 
 @Injectable()
 export class UsersService {
     constructor(
-        @InjectRepository(UserEntity)
-        private usersRepository: Repository<UserEntity>,
+        @InjectRepository(UsersRepository)
+        private usersRepository: UsersRepository
     ) { }
 
     /**
      * Get a paginated user list
      * @param pagination {PaginationRequest}
+     * @returns {Promise<PaginationResponse<UserResponseDto>>}
      */
     public async getAllUsers(pagination: PaginationRequest): Promise<PaginationResponse<UserResponseDto>> {
-        const { skip, limit: take, order, params: { search } } = pagination;
-        const query = this.usersRepository.createQueryBuilder('u')
-            .innerJoinAndSelect('u.roles', 'r')
-            .leftJoinAndSelect('u.permissions', 'p')
-            .skip(skip)
-            .take(take)
-            .orderBy(order);
 
-        if (search) {
-            query.where(`
-            u.username ILIKE :search
-            OR u.first_name ILIKE :search
-            OR u.last_name ILIKE :search
-            `, { search: `%${search}%` }
-            );
-        }
+        const {
+            userEntities,
+            totalUsers
+        } = await this.usersRepository.getUsersAndCount(pagination);
 
-        const totalUsers = await query.getCount();
-        const userEntities = await query.getMany();
 
         if (!userEntities?.length || totalUsers === 0) {
             throw new NotFoundException();
@@ -75,6 +62,7 @@ export class UsersService {
     /**
      * Get user by id
      * @param id {string}
+     * @returns {Promise<UserResponseDto>}
      */
     public async getUserById(id: string): Promise<UserResponseDto> {
         const userEntity = await this.usersRepository.findOne(id, {
@@ -90,6 +78,7 @@ export class UsersService {
     /**
      * Create new user
      * @param userDto {CreateUserRequestDto}
+     * @returns {Promise<UserResponseDto>}
      */
     public async createUser(userDto: CreateUserRequestDto): Promise<UserResponseDto> {
         try {
@@ -120,6 +109,7 @@ export class UsersService {
      * Update User by id
      * @param id {string}
      * @param userDto {UpdateUserRequestDto}
+     * @returns {Promise<UserResponseDto>}
      */
     public async updateUser(id: string, userDto: UpdateUserRequestDto): Promise<UserResponseDto> {
 
@@ -154,6 +144,7 @@ export class UsersService {
      * Change user password
      * @param changePassword {ChangePasswordRequestDto}
      * @param user {string}
+     * @returns {Promise<UserResponseDto>}
      */
     public async changePassword(changePassword: ChangePasswordRequestDto, userId: string): Promise<UserResponseDto> {
 

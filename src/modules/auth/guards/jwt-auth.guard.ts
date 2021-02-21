@@ -42,7 +42,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
 
     /**
-     * 
+     * Handle request and verify if exist an error or there's not user
      * @param error 
      * @param user 
      * @returns user || error
