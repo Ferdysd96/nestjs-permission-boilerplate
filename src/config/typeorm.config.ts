@@ -13,6 +13,6 @@ export const defaultConnection = (config: ConfigService): TypeOrmModuleOptions =
     password: config.get('TYPEORM_PASSWORD'),
     database: config.get('TYPEORM_DATABASE'),
     autoLoadEntities: config.get('TYPEORM_AUTOLOAD'),
-    synchronize: config.get('TYPEORM_SYNCRONIZE') == 'true',
+    synchronize: config.get('TYPEORM_SYNCHRONIZE') == 'true',
     logging: config.get('TYPEORM_LOGGING') == 'true'
 });

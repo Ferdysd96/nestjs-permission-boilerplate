@@ -1,8 +1,8 @@
 import {
+    ValidationPipe,
     Controller,
     Post,
     Body,
-    ValidationPipe
 } from '@nestjs/common';
 import {
     ApiInternalServerErrorResponse,

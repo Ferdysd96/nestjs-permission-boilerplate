@@ -29,14 +29,14 @@ import {
     TOKEN_NAME,
 } from '@auth';
 import {
-    PaginationParams,
+    PaginationResponse,
     PaginationRequest,
-    PaginationResponse
+    PaginationParams,
 } from '@common/pagination';
 import {
     CreatePermissionRequestDto,
+    UpdatePermissionRequestDto,
     PermissionResponseDto,
-    UpdatePermissionRequestDto
 } from './dtos';
 import { PermissionsService } from './permissions.service';
 
@@ -69,10 +69,10 @@ export class PermissionsController {
         'admin.access.permissions.update'
     )
     @Get()
-    public getAllPermissions(
+    public getPermissions(
         @PaginationParams() pagination: PaginationRequest,
     ): Promise<PaginationResponse<PermissionResponseDto>> {
-        return this.permissionsService.getAllPermissions(pagination);
+        return this.permissionsService.getPermissions(pagination);
     }
 
     @ApiOperation({ description: 'Get permission by id' })

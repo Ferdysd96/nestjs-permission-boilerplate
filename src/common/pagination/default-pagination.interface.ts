@@ -1,3 +1,6 @@
+/**
+ * Interface designed to assign default parameters to pagination
+ */
 export interface DefaultPagination {
   defaultSkip?: number;
   defaultPage?: number;

@@ -22,16 +22,16 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import {
-    CurrentUser,
-    JwtAuthGuard,
     PermissionsGuard,
+    JwtAuthGuard,
+    CurrentUser,
+    Permissions,
     TOKEN_NAME,
-    Permissions
 } from '@auth';
 import {
-    PaginationParams,
+    PaginationResponse,
     PaginationRequest,
-    PaginationResponse
+    PaginationParams,
 } from '@common/pagination';
 import {
     ChangePasswordRequestDto,
@@ -67,10 +67,10 @@ export class UsersController {
         'admin.access.users.update'
     )
     @Get()
-    public getAllUsers(
+    public getUsers(
         @PaginationParams() pagination: PaginationRequest,
     ): Promise<PaginationResponse<UserResponseDto>> {
-        return this.usersService.getAllUsers(pagination);
+        return this.usersService.getUsers(pagination);
     }
 
     @ApiOperation({ description: 'Get user by id' })
