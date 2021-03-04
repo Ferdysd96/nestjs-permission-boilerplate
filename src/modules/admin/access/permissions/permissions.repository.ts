@@ -20,7 +20,7 @@ export class PermissionsRepository extends Repository<PermissionEntity> {
             .orderBy(order);
 
         if (search) {
-            query.where('descsription ILIKE :search OR slug ILIKE :search', {
+            query.where('description ILIKE :search OR slug ILIKE :search', {
                 search: `%${search}%`
             });
         }
