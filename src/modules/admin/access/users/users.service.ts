@@ -39,24 +39,34 @@ export class UsersService {
      * @returns {Promise<PaginationResponse<UserResponseDto>>}
      */
     public async getUsers(pagination: PaginationRequest): Promise<PaginationResponse<UserResponseDto>> {
+        try {
+            const {
+                userEntities,
+                totalUsers
+            } = await this.usersRepository.getUsersAndCount(pagination);
 
-        const {
-            userEntities,
-            totalUsers
-        } = await this.usersRepository.getUsersAndCount(pagination);
 
-
-        if (!userEntities?.length || totalUsers === 0) {
-            throw new NotFoundException();
+            if (!userEntities?.length || totalUsers === 0) {
+                throw new NotFoundException();
+            }
+            const UserDtos = await Promise.all(
+                userEntities.map(UserMapper.toDtoWithRelations),
+            );
+            return PaginationResponse.of(
+                pagination,
+                totalUsers,
+                UserDtos,
+            );
+        } catch (error) {
+            if (error instanceof NotFoundException) {
+                throw new NotFoundException();
+            }
+            if (error instanceof TimeoutError) {
+                throw new RequestTimeoutException();
+            } else {
+                throw new InternalServerErrorException();
+            }
         }
-        const UserDtos = await Promise.all(
-            userEntities.map(UserMapper.toDtoWithRelations),
-        );
-        return PaginationResponse.of(
-            pagination,
-            totalUsers,
-            UserDtos,
-        );
     }
 
     /**

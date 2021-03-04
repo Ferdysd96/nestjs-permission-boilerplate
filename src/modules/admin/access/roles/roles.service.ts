@@ -55,6 +55,9 @@ export class RolesService {
                 roleDtos,
             );
         } catch (error) {
+              if (error instanceof NotFoundException) {
+                throw new NotFoundException();
+            }
             if (error instanceof TimeoutError) {
                 throw new RequestTimeoutException();
             } else {
