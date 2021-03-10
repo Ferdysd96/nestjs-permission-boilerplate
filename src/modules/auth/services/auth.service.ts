@@ -33,7 +33,7 @@ export class AuthService {
      * @returns {Promise<LoginResponseDto>}
      */
     public async login({ username, password }: AuthCredentialsRequestDto): Promise<LoginResponseDto> {
-
+       //TODO: don't take permission or roles inactives do in repository
         const user: UserEntity = await this.usersRepository.findOne({ username },
             { relations: ['roles', 'permissions'] }
         );
