@@ -38,4 +38,18 @@ export class UsersRepository extends Repository<UserEntity> {
             totalUsers: users[1]
         };
     }
+
+    /**
+     * find user by id
+     * @param id {string}
+     * @returns Promise<string>
+     */
+    async findUserByUsername(username: string): Promise<UserEntity> {
+        return await this.createQueryBuilder('u')
+            .leftJoinAndSelect('u.roles', 'r', 'r.active = true')
+            .leftJoinAndSelect('r.permissions', 'rp', 'rp.active = true')
+            .leftJoinAndSelect('u.permissions', 'p', 'p.active = true')
+            .where('u.username = :username', { username })
+            .getOne();
+    }
 }

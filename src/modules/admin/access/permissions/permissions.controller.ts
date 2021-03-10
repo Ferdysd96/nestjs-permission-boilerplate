@@ -45,7 +45,6 @@ import { PermissionsService } from './permissions.service';
 @UseGuards(
     JwtAuthGuard,
     PermissionsGuard,
-    SuperUserGuard
 )
 @Controller('access/permissions')
 export class PermissionsController {
@@ -63,10 +62,13 @@ export class PermissionsController {
     @ApiForbiddenResponse({ description: 'Access denied' })
     @ApiUnauthorizedResponse({ description: 'Not authenticated' })
     @ApiInternalServerErrorResponse({ description: 'Server error' })
+    
     @Permissions(
         'admin.access.permissions.read',
         'admin.access.permissions.create',
-        'admin.access.permissions.update'
+        'admin.access.permissions.update',
+        'admin.access.roles.create',
+        'admin.access.roles.update'
     )
     @Get()
     public getPermissions(
@@ -84,7 +86,9 @@ export class PermissionsController {
     @Permissions(
         'admin.access.permissions.read',
         'admin.access.permissions.create',
-        'admin.access.permissions.update'
+        'admin.access.permissions.update',
+        'admin.access.roles.create',
+        'admin.access.roles.update'
     )
     @Get('/:id')
     public getPermissionById(@Param('id', ParseIntPipe) id: number): Promise<PermissionResponseDto> {
@@ -97,6 +101,7 @@ export class PermissionsController {
     @ApiForbiddenResponse({ description: 'Access denied' })
     @ApiUnauthorizedResponse({ description: 'Not authenticated' })
     @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @UseGuards(SuperUserGuard)
     @Permissions('admin.access.permissions.create')
     @Post()
     public createPermission(
@@ -112,6 +117,7 @@ export class PermissionsController {
     @ApiForbiddenResponse({ description: 'Access denied' })
     @ApiUnauthorizedResponse({ description: 'Not authenticated' })
     @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @UseGuards(SuperUserGuard)
     @Permissions('admin.access.permissions.update')
     @Put('/:id')
     public updatePermission(

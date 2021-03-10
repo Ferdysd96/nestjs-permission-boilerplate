@@ -27,11 +27,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ id }: JwtPayload): Promise<UserEntity> {
-     //TODO: don't take permission or roles inactives do in repository
-    const user = await this.userRepository.findOne(id,
-      { relations: ['roles', 'permissions'] }
-    );
+  async validate({ username }: JwtPayload): Promise<UserEntity> {
+    const user = await this.userRepository.findUserByUsername(username);
     if (!user) {
       throw new InvalidCredentialsException();
     }
