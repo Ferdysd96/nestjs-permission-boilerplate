@@ -40,8 +40,8 @@ export class UsersRepository extends Repository<UserEntity> {
     }
 
     /**
-     * find user by id
-     * @param id {string}
+     * find user by username
+     * @param username {string}
      * @returns Promise<string>
      */
     async findUserByUsername(username: string): Promise<UserEntity> {
