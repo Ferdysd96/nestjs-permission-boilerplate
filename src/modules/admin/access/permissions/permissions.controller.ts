@@ -62,7 +62,6 @@ export class PermissionsController {
     @ApiForbiddenResponse({ description: 'Access denied' })
     @ApiUnauthorizedResponse({ description: 'Not authenticated' })
     @ApiInternalServerErrorResponse({ description: 'Server error' })
-    
     @Permissions(
         'admin.access.permissions.read',
         'admin.access.permissions.create',

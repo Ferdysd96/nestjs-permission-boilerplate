@@ -1,20 +1,10 @@
-import {ArrayNotEmpty, IsArray, IsBoolean, IsInt, IsNotEmpty, MaxLength} from 'class-validator';
-import {ApiProperty} from '@nestjs/swagger';
+import { CreateRoleRequestDto } from './create-role-request.dto';
+import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateRoleRequestDto {
-    
-    @ApiProperty()
-    @IsNotEmpty()
-    @MaxLength(50)
-    name: string;
-    
-    @ApiProperty()
-    @ArrayNotEmpty()
-    @IsArray()
-    @IsInt({ each: true })
-    permissions: number[];
+export class UpdateRoleRequestDto extends CreateRoleRequestDto {
 
-    @ApiProperty({example:[1,2]})
+    @ApiProperty()
     @IsNotEmpty()
     @IsBoolean()
     active: boolean;
