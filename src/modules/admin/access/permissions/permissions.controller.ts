@@ -10,13 +10,8 @@ import {
     Put,
 } from '@nestjs/common';
 import {
-    ApiInternalServerErrorResponse,
-    ApiUnauthorizedResponse,
-    ApiForbiddenResponse,
-    ApiNotFoundResponse,
     ApiConflictResponse,
     ApiBearerAuth,
-    ApiOkResponse,
     ApiOperation,
     ApiQuery,
     ApiTags,
@@ -29,19 +24,22 @@ import {
     TOKEN_NAME,
 } from '@auth';
 import {
-    PaginationResponse,
-    PaginationRequest,
-    PaginationParams,
-} from '@common/pagination';
+    ApiPaginatedResponse,
+    ApiGlobalResponse,
+    PaginationParams
+} from '@common/decorators';
 import {
     CreatePermissionRequestDto,
     UpdatePermissionRequestDto,
     PermissionResponseDto,
 } from './dtos';
 import { PermissionsService } from './permissions.service';
+import { PaginationRequest } from '@common/interfaces';
+import { PaginationResponseDto } from '@common/dtos';
 
 @ApiTags('Permissions')
 @ApiBearerAuth(TOKEN_NAME)
+
 @UseGuards(
     JwtAuthGuard,
     PermissionsGuard,
@@ -52,16 +50,8 @@ export class PermissionsController {
     constructor(private permissionsService: PermissionsService) { }
 
     @ApiOperation({ description: 'Get a paginated permission list' })
-    @ApiQuery({ name: 'page', type: 'number', required: false, example: '1' })
-    @ApiQuery({ name: 'limit', type: 'number', required: false, example: '20' })
-    @ApiQuery({ name: 'orderBy', type: 'String', required: false, example: 'description' })
-    @ApiQuery({ name: 'orderDirection', enum: ['ASC', 'DESC'], required: false })
     @ApiQuery({ name: 'search', type: 'string', required: false, example: 'admin' })
-    @ApiOkResponse({ description: 'Permissions found' })
-    @ApiNotFoundResponse({ description: 'Permissions not found' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @ApiPaginatedResponse(PermissionResponseDto)
     @Permissions(
         'admin.access.permissions.read',
         'admin.access.permissions.create',
@@ -72,16 +62,12 @@ export class PermissionsController {
     @Get()
     public getPermissions(
         @PaginationParams() pagination: PaginationRequest,
-    ): Promise<PaginationResponse<PermissionResponseDto>> {
+    ): Promise<PaginationResponseDto<PermissionResponseDto>> {
         return this.permissionsService.getPermissions(pagination);
     }
 
     @ApiOperation({ description: 'Get permission by id' })
-    @ApiOkResponse({ description: 'Permission found' })
-    @ApiNotFoundResponse({ description: 'Permission not found' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @ApiGlobalResponse(PermissionResponseDto)
     @Permissions(
         'admin.access.permissions.read',
         'admin.access.permissions.create',
@@ -95,11 +81,8 @@ export class PermissionsController {
     }
 
     @ApiOperation({ description: 'Create new permission' })
-    @ApiOkResponse({ description: 'Permission created' })
+    @ApiGlobalResponse(PermissionResponseDto)
     @ApiConflictResponse({ description: 'Permission already exists' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
     @UseGuards(SuperUserGuard)
     @Permissions('admin.access.permissions.create')
     @Post()
@@ -110,12 +93,8 @@ export class PermissionsController {
     }
 
     @ApiOperation({ description: 'Update permission by id' })
-    @ApiOkResponse({ description: 'Permission updated' })
-    @ApiNotFoundResponse({ description: 'Permission not found' })
+    @ApiGlobalResponse(PermissionResponseDto)
     @ApiConflictResponse({ description: 'Permission already exists' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
     @UseGuards(SuperUserGuard)
     @Permissions('admin.access.permissions.update')
     @Put('/:id')

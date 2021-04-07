@@ -1,4 +1,4 @@
-import { PaginationRequest } from '@common/pagination';
+import { PaginationRequest } from '@common/interfaces';
 import { EntityRepository, Repository } from 'typeorm';
 import { RoleEntity } from './role.entity';
 

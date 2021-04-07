@@ -11,19 +11,17 @@ import {
     UserResponseDto,
 } from './dtos';
 import {
-    PaginationResponse,
-    PaginationRequest,
-} from '@common/pagination';
-import {
     InvalidCurrentPasswordException,
     ForeignKeyConflictException,
     UserExistsException,
 } from '@common/exeptions';
+import { PaginationRequest } from '@common/interfaces';
+import { PaginationResponseDto } from '@common/dtos';
 import { UsersRepository } from './users.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { HashHelper, Pagination } from '@helpers';
 import { DBErrorCode } from '@common/enums';
 import { UserMapper } from './users.mapper';
-import { HashHelper } from '@helpers';
 import { TimeoutError } from 'rxjs';
 
 @Injectable()
@@ -36,9 +34,9 @@ export class UsersService {
     /**
      * Get a paginated user list
      * @param pagination {PaginationRequest}
-     * @returns {Promise<PaginationResponse<UserResponseDto>>}
+     * @returns {Promise<PaginationResponseDto<UserResponseDto>>}
      */
-    public async getUsers(pagination: PaginationRequest): Promise<PaginationResponse<UserResponseDto>> {
+    public async getUsers(pagination: PaginationRequest): Promise<PaginationResponseDto<UserResponseDto>> {
         try {
             const [
                 userEntities,
@@ -51,7 +49,7 @@ export class UsersService {
             const UserDtos = await Promise.all(
                 userEntities.map(UserMapper.toDtoWithRelations),
             );
-            return PaginationResponse.of(
+            return Pagination.of(
                 pagination,
                 totalUsers,
                 UserDtos,

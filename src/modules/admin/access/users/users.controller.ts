@@ -10,13 +10,8 @@ import {
     Put,
 } from '@nestjs/common';
 import {
-    ApiInternalServerErrorResponse,
-    ApiUnauthorizedResponse,
-    ApiForbiddenResponse,
     ApiConflictResponse,
-    ApiNotFoundResponse,
     ApiBearerAuth,
-    ApiOkResponse,
     ApiOperation,
     ApiQuery,
     ApiTags,
@@ -29,18 +24,20 @@ import {
     TOKEN_NAME,
 } from '@auth';
 import {
-    PaginationResponse,
-    PaginationRequest,
-    PaginationParams,
-} from '@common/pagination';
-import {
     ChangePasswordRequestDto,
     CreateUserRequestDto,
     UpdateUserRequestDto,
     UserResponseDto,
 } from './dtos';
-import { UserEntity } from './user.entity';
+import {
+    ApiGlobalResponse,
+    ApiPaginatedResponse,
+    PaginationParams
+} from '@common/decorators';
+import { PaginationRequest } from '@common/interfaces';
+import { PaginationResponseDto } from '@common/dtos';
 import { UsersService } from './users.service';
+import { UserEntity } from './user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth(TOKEN_NAME)
@@ -51,16 +48,8 @@ export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @ApiOperation({ description: 'Get a paginated user list' })
-    @ApiQuery({ name: 'page', type: 'number', required: false, example: '1' })
-    @ApiQuery({ name: 'limit', type: 'number', required: false, example: '20' })
-    @ApiQuery({ name: 'orderBy', type: 'String', required: false, example: 'username' })
-    @ApiQuery({ name: 'orderDirection', enum: ['ASC', 'DESC'], required: false })
+    @ApiPaginatedResponse(UserResponseDto)
     @ApiQuery({ name: 'search', type: 'string', required: false, example: 'admin' })
-    @ApiOkResponse({ description: 'Users found' })
-    @ApiNotFoundResponse({ description: 'Users not found' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
     @Permissions(
         'admin.access.users.read',
         'admin.access.users.create',
@@ -69,16 +58,12 @@ export class UsersController {
     @Get()
     public getUsers(
         @PaginationParams() pagination: PaginationRequest,
-    ): Promise<PaginationResponse<UserResponseDto>> {
+    ): Promise<PaginationResponseDto<UserResponseDto>> {
         return this.usersService.getUsers(pagination);
     }
 
     @ApiOperation({ description: 'Get user by id' })
-    @ApiOkResponse({ description: 'User found' })
-    @ApiNotFoundResponse({ description: 'User not found' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @ApiGlobalResponse(UserResponseDto)
     @Permissions(
         'admin.access.users.read',
         'admin.access.users.create',
@@ -90,11 +75,9 @@ export class UsersController {
     }
 
     @ApiOperation({ description: 'Create new user' })
-    @ApiOkResponse({ description: 'User created' })
+    @ApiGlobalResponse(UserResponseDto)
     @ApiConflictResponse({ description: 'User already exists' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @ApiGlobalResponse(UserResponseDto)
     @Permissions('admin.access.users.create')
     @Post()
     public createUser(
@@ -104,12 +87,8 @@ export class UsersController {
     }
 
     @ApiOperation({ description: 'Update user by id' })
-    @ApiOkResponse({ description: 'User updated' })
-    @ApiNotFoundResponse({ description: 'User not found' })
+    @ApiGlobalResponse(UserResponseDto)
     @ApiConflictResponse({ description: 'User already exists' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
     @Permissions('admin.access.users.update')
     @Put('/:id')
     public updateUser(
@@ -119,12 +98,8 @@ export class UsersController {
         return this.usersService.updateUser(id, UserDto)
     };
 
-    @ApiOperation({ description: 'User password changed' })
-    @ApiOkResponse({ description: 'User updated' })
-    @ApiNotFoundResponse({ description: 'User not found' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @ApiOperation({ description: 'Change user password' })
+    @ApiGlobalResponse(UserResponseDto)
     @Post('/change/password')
     changePassword(
         @Body(ValidationPipe) changePassword: ChangePasswordRequestDto,

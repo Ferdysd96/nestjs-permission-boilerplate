@@ -2,9 +2,9 @@ import {
     CallHandler,
     ExecutionContext,
     Injectable,
-    NestInterceptor 
+    NestInterceptor
 } from '@nestjs/common';
-import { Response } from './response.interface';
+import { ResponseDto } from '../dtos/response.dto';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -16,7 +16,7 @@ export class HttpResponseInterceptor<T> implements NestInterceptor<T> {
      * @param next {CallHandler}
      * @returns { payload:Response<T>, timestamp: string }
      */
-    intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<ResponseDto<T>> {
         const timestamp = new Date().getTime();
         return next.handle().pipe(map(payload => {
             return { payload, timestamp };

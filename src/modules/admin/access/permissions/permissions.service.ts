@@ -9,15 +9,14 @@ import {
     UpdatePermissionRequestDto,
     PermissionResponseDto,
 } from './dtos';
-import {
-    PaginationResponse,
-    PaginationRequest,
-} from '@common/pagination';
 import { PermissionsRepository } from './permissions.repository';
 import { PermissionExistsException } from '@common/exeptions';
+import { PaginationRequest } from '@common/interfaces';
 import { PermissionMapper } from './permission.mapper';
+import { PaginationResponseDto } from '@common/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DBErrorCode } from '@common/enums';
+import { Pagination } from '@helpers';
 import { TimeoutError } from 'rxjs';
 
 @Injectable()
@@ -30,9 +29,9 @@ export class PermissionsService {
     /**
      * Get a paginated permission list
      * @param pagination {PaginationRequest}
-     * @returns {Promise<PaginationResponse<PermissionResponseDto>>}
+     * @returns {Promise<PaginationResponseDto<PermissionResponseDto>>}
      */
-    public async getPermissions(pagination: PaginationRequest): Promise<PaginationResponse<PermissionResponseDto>> {
+    public async getPermissions(pagination: PaginationRequest): Promise<PaginationResponseDto<PermissionResponseDto>> {
         try {
             const [
                 permissionEntities,
@@ -45,7 +44,7 @@ export class PermissionsService {
             const permissionDtos = await Promise.all(
                 permissionEntities.map(PermissionMapper.toDto),
             );
-            return PaginationResponse.of(
+            return Pagination.of(
                 pagination,
                 totalPermissions,
                 permissionDtos,

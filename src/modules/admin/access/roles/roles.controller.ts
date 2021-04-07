@@ -1,7 +1,7 @@
 import {
     ValidationPipe,
     ParseIntPipe,
-    Controller, 
+    Controller,
     UseGuards,
     Param,
     Body,
@@ -10,22 +10,12 @@ import {
     Put,
 } from '@nestjs/common';
 import {
-    ApiInternalServerErrorResponse,
-    ApiUnauthorizedResponse,
-    ApiForbiddenResponse,
     ApiConflictResponse,
-    ApiNotFoundResponse,
     ApiBearerAuth,
-    ApiOkResponse,
     ApiOperation,
     ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
-import {
-    PaginationResponse,
-    PaginationRequest,
-    PaginationParams,
-} from '@common/pagination';
 import {
     UpdateRoleRequestDto,
     CreateRoleRequestDto,
@@ -38,6 +28,13 @@ import {
     Permissions,
     TOKEN_NAME
 } from '@auth';
+import {
+    ApiGlobalResponse,
+    ApiPaginatedResponse,
+    PaginationParams
+} from '@common/decorators';
+import { PaginationRequest } from '@common/interfaces';
+import { PaginationResponseDto } from '@common/dtos';
 
 @ApiTags('Roles')
 @ApiBearerAuth(TOKEN_NAME)
@@ -48,16 +45,8 @@ export class RolesController {
     constructor(private RolesService: RolesService) { }
 
     @ApiOperation({ description: 'Get a paginated role list' })
-    @ApiQuery({ name: 'page', type: 'number', required: false, example: '1' })
-    @ApiQuery({ name: 'limit', type: 'number', required: false, example: '20' })
-    @ApiQuery({ name: 'orderBy', type: 'String', required: false, example: 'name' })
-    @ApiQuery({ name: 'orderDirection', enum: ['ASC', 'DESC'], required: false })
+    @ApiPaginatedResponse(RoleResponseDto)
     @ApiQuery({ name: 'search', type: 'string', required: false, example: 'admin' })
-    @ApiOkResponse({ description: 'Roles found' })
-    @ApiNotFoundResponse({ description: 'Roles not found' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
     @Permissions(
         'admin.access.roles.read',
         'admin.access.roles.create',
@@ -66,16 +55,12 @@ export class RolesController {
     @Get()
     public getRoles(
         @PaginationParams() pagination: PaginationRequest,
-    ): Promise<PaginationResponse<RoleResponseDto>> {
+    ): Promise<PaginationResponseDto<RoleResponseDto>> {
         return this.RolesService.getRoles(pagination);
     }
 
     @ApiOperation({ description: 'Get role by id' })
-    @ApiOkResponse({ description: 'Role found' })
-    @ApiNotFoundResponse({ description: 'Role not found' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
+    @ApiGlobalResponse(RoleResponseDto)
     @Permissions(
         'admin.access.roles.read',
         'admin.access.roles.create',
@@ -87,11 +72,8 @@ export class RolesController {
     }
 
     @ApiOperation({ description: 'Create new role' })
-    @ApiOkResponse({ description: 'Role created' })
+    @ApiGlobalResponse(RoleResponseDto)
     @ApiConflictResponse({ description: 'Role already exists' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
     @Permissions('admin.access.roles.create')
     @Post()
     public createRole(
@@ -101,12 +83,8 @@ export class RolesController {
     }
 
     @ApiOperation({ description: 'Update role by id' })
-    @ApiOkResponse({ description: 'Role updated' })
-    @ApiNotFoundResponse({ description: 'Role not found' })
+    @ApiGlobalResponse(RoleResponseDto)
     @ApiConflictResponse({ description: 'Role already exists' })
-    @ApiForbiddenResponse({ description: 'Access denied' })
-    @ApiUnauthorizedResponse({ description: 'Not authenticated' })
-    @ApiInternalServerErrorResponse({ description: 'Server error' })
     @Permissions('admin.access.roles.update')
     @Put('/:id')
     public updateRole(

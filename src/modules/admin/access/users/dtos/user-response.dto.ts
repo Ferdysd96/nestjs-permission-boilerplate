@@ -16,10 +16,10 @@ export class UserResponseDto {
   @ApiProperty()
   lastName: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: [RoleResponseDto] })
   roles?: RoleResponseDto[];
 
-  @ApiProperty()
+  @ApiProperty({ type: [PermissionResponseDto] })
   permissions?: PermissionResponseDto[];
 
   @ApiProperty()

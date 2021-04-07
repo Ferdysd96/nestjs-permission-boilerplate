@@ -8,7 +8,7 @@ export class RoleResponseDto {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: [PermissionResponseDto] })
   permissions: PermissionResponseDto[];
 
   @ApiProperty()

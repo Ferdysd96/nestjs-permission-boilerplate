@@ -10,18 +10,17 @@ import {
     RoleResponseDto,
 } from './dtos';
 import {
-    PaginationResponse,
-    PaginationRequest,
-} from '@common/pagination';
-import {
     ForeignKeyConflictException,
     RoleExistsException
 } from '@common/exeptions';
+import { PaginationRequest } from '@common/interfaces';
 import { RolesRepository } from './roles.repository';
+import { PaginationResponseDto } from '@common/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DBErrorCode } from '@common/enums';
 import { RoleMapper } from './role.mapper';
 import { TimeoutError } from 'rxjs';
+import { Pagination } from '@helpers';
 
 @Injectable()
 export class RolesService {
@@ -33,9 +32,9 @@ export class RolesService {
     /**
      * Get a paginated role list
      * @param pagination {PaginationRequest}
-     * @returns {Promise<PaginationResponse<RoleResponseDto>>}
+     * @returns {Promise<PaginationResponseDto<RoleResponseDto>>}
      */
-    public async getRoles(pagination: PaginationRequest): Promise<PaginationResponse<RoleResponseDto>> {
+    public async getRoles(pagination: PaginationRequest): Promise<PaginationResponseDto<RoleResponseDto>> {
 
         try {
             const [
@@ -49,7 +48,7 @@ export class RolesService {
             const roleDtos = await Promise.all(
                 roleEntities.map(RoleMapper.toDtoWithRelations),
             );
-            return PaginationResponse.of(
+            return Pagination.of(
                 pagination,
                 totalRoles,
                 roleDtos,

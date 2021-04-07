@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { DefaultPagination } from './default-pagination.interface';
+import { DefaultPagination } from '../interfaces/default-pagination.interface';
 
 /**
  * Decorator intended for building a PaginationRequest object based on the query string parameters
