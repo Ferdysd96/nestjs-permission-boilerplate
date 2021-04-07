@@ -78,10 +78,12 @@ $ npm run seed
 ```
 src
 ├── common
+│   ├── decorators
+│   ├── dtos
 │   ├── enums
 │   ├── exeptions
 │   ├── interceptors
-│   └── pagination
+│   └── interfaces
 ├── config
 │   ├── swagger.config.ts
 │   └── typeorm.config.ts
@@ -91,7 +93,8 @@ src
 │   ├── migrations
 │   └── seeds
 ├── helpers
-│   └── hash.helper.ts
+│   ├── hash.helper.ts
+│   └── pagination.helper.ts
 ├── modules
 │   ├── admin
 │   │   ├── access
