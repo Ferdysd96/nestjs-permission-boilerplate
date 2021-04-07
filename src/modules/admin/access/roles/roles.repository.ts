@@ -8,11 +8,11 @@ export class RolesRepository extends Repository<RoleEntity> {
     /**
      * Get roles list
      * @param pagination {PaginationRequest}
-     * @returns {roleEntities: RoleEntity[], totalRoles: number}
+     * @returns [roleEntities: RoleEntity[], totalRoles: number]
      */
     public async getRolesAndCount(
         pagination: PaginationRequest
-    ): Promise<{ roleEntities: RoleEntity[], totalRoles: number }> {
+    ): Promise<[roleEntities: RoleEntity[], totalRoles: number]> {
         const { skip, limit: take, order, params: { search } } = pagination;
         const query = this.createQueryBuilder('r')
             .innerJoinAndSelect('r.permissions', 'p')
@@ -24,11 +24,6 @@ export class RolesRepository extends Repository<RoleEntity> {
             query.where('name ILIKE :search', { search: `%${search}%` });
         }
 
-        const roles = await query.getManyAndCount();
-
-        return {
-            roleEntities: roles[0],
-            totalRoles: roles[1]
-        };
+        return query.getManyAndCount();
     }
 }

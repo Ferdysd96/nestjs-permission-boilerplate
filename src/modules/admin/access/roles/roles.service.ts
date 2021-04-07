@@ -36,12 +36,12 @@ export class RolesService {
      * @returns {Promise<PaginationResponse<RoleResponseDto>>}
      */
     public async getRoles(pagination: PaginationRequest): Promise<PaginationResponse<RoleResponseDto>> {
-       
+
         try {
-            const {
+            const [
                 roleEntities,
                 totalRoles
-            } = await this.rolesRepository.getRolesAndCount(pagination);
+            ] = await this.rolesRepository.getRolesAndCount(pagination);
 
             if (!roleEntities?.length || totalRoles === 0) {
                 throw new NotFoundException();
@@ -55,7 +55,7 @@ export class RolesService {
                 roleDtos,
             );
         } catch (error) {
-              if (error instanceof NotFoundException) {
+            if (error instanceof NotFoundException) {
                 throw new NotFoundException();
             }
             if (error instanceof TimeoutError) {

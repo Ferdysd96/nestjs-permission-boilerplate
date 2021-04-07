@@ -40,11 +40,10 @@ export class UsersService {
      */
     public async getUsers(pagination: PaginationRequest): Promise<PaginationResponse<UserResponseDto>> {
         try {
-            const {
+            const [
                 userEntities,
                 totalUsers
-            } = await this.usersRepository.getUsersAndCount(pagination);
-
+            ] = await this.usersRepository.getUsersAndCount(pagination);
 
             if (!userEntities?.length || totalUsers === 0) {
                 throw new NotFoundException();

@@ -12,7 +12,7 @@ export class PermissionsRepository extends Repository<PermissionEntity> {
      */
     public async getPermissionsAndCount(
         pagination: PaginationRequest
-    ): Promise<{ permissionEntities: PermissionEntity[], totalPermissions: number }> {
+    ): Promise<[permissionEntities: PermissionEntity[], totalPermissions: number]> {
         const { skip, limit: take, order, params: { search } } = pagination;
         const query = this.createQueryBuilder()
             .skip(skip)
@@ -25,11 +25,6 @@ export class PermissionsRepository extends Repository<PermissionEntity> {
             });
         }
 
-        const permissions = await query.getManyAndCount();
-
-        return {
-            permissionEntities: permissions[0],
-            totalPermissions: permissions[1]
-        };
+        return query.getManyAndCount();
     }
 }

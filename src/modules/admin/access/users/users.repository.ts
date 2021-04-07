@@ -8,11 +8,11 @@ export class UsersRepository extends Repository<UserEntity> {
     /**
      * Get users list
      * @param pagination {PaginationRequest}
-     * @returns {userEntities: UserEntity[], totalUsers: number}
+     * @returns [userEntities: UserEntity[], totalUsers: number]
      */
     public async getUsersAndCount(
         pagination: PaginationRequest
-    ): Promise<{ userEntities: UserEntity[], totalUsers: number }> {
+    ): Promise<[userEntities: UserEntity[], totalUsers: number]> {
 
         const { skip, limit: take, order, params: { search } } = pagination;
         const query = this.createQueryBuilder('u')
@@ -31,12 +31,7 @@ export class UsersRepository extends Repository<UserEntity> {
             );
         }
 
-        const users = await query.getManyAndCount();
-
-        return {
-            userEntities: users[0],
-            totalUsers: users[1]
-        };
+        return query.getManyAndCount();
     }
 
     /**

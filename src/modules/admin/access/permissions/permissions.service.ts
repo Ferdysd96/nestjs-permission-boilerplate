@@ -34,10 +34,10 @@ export class PermissionsService {
      */
     public async getPermissions(pagination: PaginationRequest): Promise<PaginationResponse<PermissionResponseDto>> {
         try {
-            const {
+            const [
                 permissionEntities,
                 totalPermissions
-            } = await this.permissionsRepository.getPermissionsAndCount(pagination);
+            ] = await this.permissionsRepository.getPermissionsAndCount(pagination);
 
             if (!permissionEntities?.length || totalPermissions === 0) {
                 throw new NotFoundException();
