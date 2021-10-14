@@ -1,11 +1,11 @@
-import { ConfigService } from '@nestjs/config';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 /**
  * Setup default connection in the application
  * @param config {ConfigService}
  */
-export const defaultConnection = (config: ConfigService): TypeOrmModuleOptions => ({
+ const defaultConnection = (config: ConfigService): TypeOrmModuleOptions => ({
     type: 'postgres',
     host: config.get('TYPEORM_HOST'),
     port: config.get('TYPEORM_PORT'),
@@ -16,3 +16,11 @@ export const defaultConnection = (config: ConfigService): TypeOrmModuleOptions =
     synchronize: config.get('TYPEORM_SYNCHRONIZE') == 'true',
     logging: config.get('TYPEORM_LOGGING') == 'true'
 });
+
+export const databaseProviders = [
+  TypeOrmModule.forRootAsync({
+     imports: [ConfigModule],
+     useFactory: defaultConnection,
+     inject: [ConfigService],
+  }),
+];

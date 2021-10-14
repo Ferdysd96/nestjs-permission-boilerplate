@@ -39,12 +39,14 @@ import { PaginationResponseDto } from '@common/dtos';
 
 @ApiTags('Permissions')
 @ApiBearerAuth(TOKEN_NAME)
-
 @UseGuards(
     JwtAuthGuard,
     PermissionsGuard,
 )
-@Controller('access/permissions')
+@Controller( {
+    path: 'access/permissions',
+    version: '1'  
+})
 export class PermissionsController {
 
     constructor(private permissionsService: PermissionsService) { }

@@ -42,7 +42,10 @@ import { UserEntity } from './user.entity';
 @ApiTags('Users')
 @ApiBearerAuth(TOKEN_NAME)
 @UseGuards(JwtAuthGuard, PermissionsGuard)
-@Controller('access/users')
+@Controller({
+  path: 'access/users',
+  version: '1'
+})
 export class UsersController {
 
     constructor(private usersService: UsersService) { }

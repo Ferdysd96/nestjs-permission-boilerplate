@@ -39,7 +39,10 @@ import { PaginationResponseDto } from '@common/dtos';
 @ApiTags('Roles')
 @ApiBearerAuth(TOKEN_NAME)
 @UseGuards(JwtAuthGuard, PermissionsGuard)
-@Controller('access/roles')
+@Controller({
+ path: 'access/roles',
+ version:'1'
+})
 export class RolesController {
 
     constructor(private RolesService: RolesService) { }

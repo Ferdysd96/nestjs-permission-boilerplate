@@ -4,26 +4,27 @@ import { AppModule } from './app.module';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 import { configSwagger } from '@config';
-import { ConfigService } from '@nestjs/config';
 import { HttpResponseInterceptor } from '@common/interceptors';
 import { HttpExceptionFilter } from '@common/exeptions';
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
-  const port = configService.get<number>('API_PORT');
-  const prefix = configService.get<string>('API_PREFIX');
+  
 
   app.use(helmet());
   app.use(compression());
   app.enableCors();
+  app.enableVersioning();
+
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new HttpResponseInterceptor());
   app.useGlobalPipes(new ValidationPipe());
-  app.setGlobalPrefix(prefix);
-  configSwagger(app);
-  await app.listen(port);
-  return port;
+ 
+  
+  app.setGlobalPrefix(AppModule.apiPrefix);
+  configSwagger(app, AppModule.apiVersion);
+  await app.listen(AppModule.port);
+  return AppModule.port;
 }
 
 bootstrap().then((port: number) => {
