@@ -56,7 +56,7 @@ $ npm run seed
 
 ## Swagger
 
-- local: [`http://localhost:8080/swagger`](http://localhost:8080/api/v1/swagger)
+- local: [`http://localhost:8080/api/v1/swagger`](http://localhost:8080/api/v1/swagger)
 - token: [`JWT <token_generated_on_login>`](http://localhost:8080/swagger/#/Auth/AuthController_login)
 
 ## Users
