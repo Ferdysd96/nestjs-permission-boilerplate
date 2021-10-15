@@ -56,7 +56,7 @@ $ npm run seed
 
 ## Swagger
 
-- local: [`http://localhost:8080/swagger`](http://localhost:8080/swagger)
+- local: [`http://localhost:8080/swagger`](http://localhost:8080/api/v1/swagger)
 - token: [`JWT <token_generated_on_login>`](http://localhost:8080/swagger/#/Auth/AuthController_login)
 
 ## Users
@@ -85,13 +85,14 @@ src
 │   ├── interceptors
 │   └── interfaces
 ├── config
-│   ├── swagger.config.ts
-│   └── typeorm.config.ts
+│   └── swagger.config.ts
 ├── database
 │   ├── entities
 │   │   └── base.entity.ts
 │   ├── migrations
-│   └── seeds
+    ├── seeds
+    ├── database.module.ts
+│   └── database.providers.ts
 ├── helpers
 │   ├── hash.helper.ts
 │   └── pagination.helper.ts
