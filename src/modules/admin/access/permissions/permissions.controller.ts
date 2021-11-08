@@ -40,8 +40,8 @@ import { PaginationResponseDto } from '@common/dtos';
 @ApiTags('Permissions')
 @ApiBearerAuth(TOKEN_NAME)
 @UseGuards(
-    JwtAuthGuard,
-    PermissionsGuard,
+    //JwtAuthGuard,
+   // PermissionsGuard,
 )
 @Controller( {
     path: 'access/permissions',
@@ -54,13 +54,13 @@ export class PermissionsController {
     @ApiOperation({ description: 'Get a paginated permission list' })
     @ApiQuery({ name: 'search', type: 'string', required: false, example: 'admin' })
     @ApiPaginatedResponse(PermissionResponseDto)
-    @Permissions(
+    /* @Permissions(
         'admin.access.permissions.read',
         'admin.access.permissions.create',
         'admin.access.permissions.update',
         'admin.access.roles.create',
         'admin.access.roles.update'
-    )
+    ) */
     @Get()
     public getPermissions(
         @PaginationParams() pagination: PaginationRequest,

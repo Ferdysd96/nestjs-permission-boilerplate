@@ -38,9 +38,6 @@ export class PermissionsService {
                 totalPermissions
             ] = await this.permissionsRepository.getPermissionsAndCount(pagination);
 
-            if (!permissionEntities?.length || totalPermissions === 0) {
-                throw new NotFoundException();
-            }
             const permissionDtos = await Promise.all(
                 permissionEntities.map(PermissionMapper.toDto),
             );

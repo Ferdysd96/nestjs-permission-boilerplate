@@ -42,9 +42,6 @@ export class RolesService {
                 totalRoles
             ] = await this.rolesRepository.getRolesAndCount(pagination);
 
-            if (!roleEntities?.length || totalRoles === 0) {
-                throw new NotFoundException();
-            }
             const roleDtos = await Promise.all(
                 roleEntities.map(RoleMapper.toDtoWithRelations),
             );

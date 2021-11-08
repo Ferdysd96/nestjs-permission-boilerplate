@@ -43,9 +43,6 @@ export class UsersService {
                 totalUsers
             ] = await this.usersRepository.getUsersAndCount(pagination);
 
-            if (!userEntities?.length || totalUsers === 0) {
-                throw new NotFoundException();
-            }
             const UserDtos = await Promise.all(
                 userEntities.map(UserMapper.toDtoWithRelations),
             );
