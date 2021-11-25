@@ -12,16 +12,16 @@ import { RoleExistsException } from './role-exists.exception';
 import { UserExistsException } from './user-exists.exception';
 
 export {
-    ForeignKeyConflictException,
-    PermissionExistsException,
-    HttpExceptionFilter,
-    RoleExistsException,
-    UserExistsException,
-    InvalidCurrentPasswordException,
-    InvalidCredentialsException,
-    DisabledUserException,
-    InvalidTokenException,
-    AccessTokenExpiredException,
-    RefreshTokenExpiredException,
-    HttpErrorType
-}
+  ForeignKeyConflictException,
+  PermissionExistsException,
+  HttpExceptionFilter,
+  RoleExistsException,
+  UserExistsException,
+  InvalidCurrentPasswordException,
+  InvalidCredentialsException,
+  DisabledUserException,
+  InvalidTokenException,
+  AccessTokenExpiredException,
+  RefreshTokenExpiredException,
+  HttpErrorType,
+};

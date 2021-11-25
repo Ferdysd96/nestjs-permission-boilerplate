@@ -7,14 +7,14 @@ import { DatabaseModule } from '@database/database.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env']
+      envFilePath: ['.env'],
     }),
     DatabaseModule,
     AdminModule,
     AuthModule,
   ],
 })
-export class AppModule { 
+export class AppModule {
   static port: number;
   static apiVersion: string;
   static apiPrefix: string;

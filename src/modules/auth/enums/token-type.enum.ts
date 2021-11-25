@@ -1,4 +1,4 @@
 export enum TokenType {
   RefreshToken = 'REFRESH_TOKEN',
-  AccessToken = 'ACCESS_TOKEN'
+  AccessToken = 'ACCESS_TOKEN',
 }
