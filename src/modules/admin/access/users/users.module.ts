@@ -5,12 +5,8 @@ import { UsersController } from './users.controller';
 import { UsersRepository } from './users.repository';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([
-            UsersRepository
-        ]),
-    ],
-    controllers: [UsersController],
-    providers: [UsersService],
+  imports: [TypeOrmModule.forFeature([UsersRepository])],
+  controllers: [UsersController],
+  providers: [UsersService],
 })
-export class UsersModule { }
+export class UsersModule {}

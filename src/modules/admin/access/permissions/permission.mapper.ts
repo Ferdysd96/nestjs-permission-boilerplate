@@ -1,9 +1,5 @@
 import { PermissionEntity } from './permission.entity';
-import {
-  CreatePermissionRequestDto,
-  UpdatePermissionRequestDto,
-  PermissionResponseDto,
-} from './dtos';
+import { CreatePermissionRequestDto, UpdatePermissionRequestDto, PermissionResponseDto } from './dtos';
 
 export class PermissionMapper {
   public static toDto(entity: PermissionEntity): PermissionResponseDto {
@@ -23,10 +19,7 @@ export class PermissionMapper {
     return entity;
   }
 
-  public static toUpdateEntity(
-    entity: PermissionEntity,
-    dto: UpdatePermissionRequestDto
-  ): PermissionEntity {
+  public static toUpdateEntity(entity: PermissionEntity, dto: UpdatePermissionRequestDto): PermissionEntity {
     entity.slug = dto.slug;
     entity.description = dto.description;
     entity.active = dto.active;

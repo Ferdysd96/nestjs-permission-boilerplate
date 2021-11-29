@@ -5,7 +5,7 @@ export class DisabledUserException extends UnauthorizedException {
   constructor(errorType: ErrorType) {
     super({
       errorType,
-      message: 'User not authorized to login'
+      message: 'User not authorized to login',
     });
   }
 }

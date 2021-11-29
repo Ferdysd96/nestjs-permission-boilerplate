@@ -5,7 +5,7 @@ export class ForeignKeyConflictException extends ConflictException {
   constructor() {
     super({
       errorType: ErrorType.ForeignKeyConflict,
-      message: `Foreign key conflict`
+      message: `Foreign key conflict`,
     });
   }
 }

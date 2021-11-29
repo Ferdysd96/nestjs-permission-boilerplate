@@ -43,7 +43,7 @@ export class UserEntity extends BaseEntity {
     name: 'is_super_user',
     type: 'boolean',
     nullable: false,
-    default: false
+    default: false,
   })
   isSuperUser: boolean;
 
@@ -55,39 +55,37 @@ export class UserEntity extends BaseEntity {
   })
   status: UserStatus;
 
-  @ManyToMany(
-    () => RoleEntity,
-    role => role.id,
-    { lazy: true, cascade: true },
-  )
+  @ManyToMany(() => RoleEntity, (role) => role.id, {
+    lazy: true,
+    cascade: true,
+  })
   @JoinTable({
     name: 'users_roles',
     joinColumn: {
       name: 'user_id',
-      referencedColumnName: 'id'
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
       name: 'role_id',
-      referencedColumnName: 'id'
-    }
+      referencedColumnName: 'id',
+    },
   })
   roles: Promise<RoleEntity[]>;
 
-  @ManyToMany(
-    () => PermissionEntity,
-    permission => permission.id,
-    { lazy: true, cascade: true },
-  )
+  @ManyToMany(() => PermissionEntity, (permission) => permission.id, {
+    lazy: true,
+    cascade: true,
+  })
   @JoinTable({
     name: 'users_permissions',
     joinColumn: {
       name: 'user_id',
-      referencedColumnName: 'id'
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
       name: 'permission_id',
-      referencedColumnName: 'id'
-    }
+      referencedColumnName: 'id',
+    },
   })
   permissions: Promise<PermissionEntity[]>;
 
@@ -95,5 +93,4 @@ export class UserEntity extends BaseEntity {
     super();
     Object.assign(this, user);
   }
-
 }

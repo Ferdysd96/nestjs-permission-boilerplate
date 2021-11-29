@@ -5,7 +5,7 @@ export class PermissionExistsException extends ConflictException {
   constructor(slug: string) {
     super({
       errorType: ErrorType.PermissionExists,
-      message: `There's a permission with slug '${slug}'`
+      message: `There's a permission with slug '${slug}'`,
     });
   }
 }

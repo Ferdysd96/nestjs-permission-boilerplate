@@ -8,12 +8,12 @@ import { JwtPayload } from './jwt-payload.dto';
 import { TokenDto } from './token.dto';
 
 export {
-    AuthCredentialsRequestDto,
-    ValidateTokenResponseDto,
-    ValidateTokenRequestDto,
-    RefreshTokenRequestDto,
-    LoginResponseDto,
-    AuthAccessDto,
-    JwtPayload,
-    TokenDto
-}
+  AuthCredentialsRequestDto,
+  ValidateTokenResponseDto,
+  ValidateTokenRequestDto,
+  RefreshTokenRequestDto,
+  LoginResponseDto,
+  AuthAccessDto,
+  JwtPayload,
+  TokenDto,
+};

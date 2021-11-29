@@ -5,7 +5,7 @@ export class InvalidCurrentPasswordException extends ForbiddenException {
   constructor() {
     super({
       errorType: ErrorType.InvalidCurrentPassword,
-      message: 'The current password is invalid'
+      message: 'The current password is invalid',
     });
   }
 }

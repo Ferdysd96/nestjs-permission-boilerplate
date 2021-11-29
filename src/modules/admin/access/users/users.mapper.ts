@@ -2,11 +2,7 @@ import { PermissionEntity } from '../permissions/permission.entity';
 import { PermissionMapper } from '../permissions/permission.mapper';
 import { RoleEntity } from '../roles/role.entity';
 import { RoleMapper } from '../roles/role.mapper';
-import {
-  CreateUserRequestDto,
-  UserResponseDto,
-  UpdateUserRequestDto
-} from './dtos';
+import { CreateUserRequestDto, UserResponseDto, UpdateUserRequestDto } from './dtos';
 import { UserStatus } from './user-status.enum';
 import { UserEntity } from './user.entity';
 
@@ -43,22 +39,19 @@ export class UserMapper {
     entity.firstName = dto.firstName;
     entity.lastName = dto.lastName;
     entity.password = dto.password;
-    entity.permissions = Promise.resolve(dto.permissions.map(id => new PermissionEntity({ id })));
-    entity.roles = Promise.resolve(dto.roles.map(id => new RoleEntity({ id })));
+    entity.permissions = Promise.resolve(dto.permissions.map((id) => new PermissionEntity({ id })));
+    entity.roles = Promise.resolve(dto.roles.map((id) => new RoleEntity({ id })));
     entity.status = UserStatus.Active;
     entity.isSuperUser = false;
     return entity;
   }
 
-  public static toUpdateEntity(
-    entity: UserEntity,
-    dto: UpdateUserRequestDto
-  ): UserEntity {
+  public static toUpdateEntity(entity: UserEntity, dto: UpdateUserRequestDto): UserEntity {
     entity.username = dto.username;
     entity.firstName = dto.firstName;
     entity.lastName = dto.lastName;
-    entity.permissions = Promise.resolve(dto.permissions.map(id => new PermissionEntity({ id })));
-    entity.roles = Promise.resolve(dto.roles.map(id => new RoleEntity({ id })));
+    entity.permissions = Promise.resolve(dto.permissions.map((id) => new PermissionEntity({ id })));
+    entity.roles = Promise.resolve(dto.roles.map((id) => new RoleEntity({ id })));
     entity.status = dto.status;
     return entity;
   }

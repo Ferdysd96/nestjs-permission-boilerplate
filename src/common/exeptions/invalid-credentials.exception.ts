@@ -5,7 +5,7 @@ export class InvalidCredentialsException extends UnauthorizedException {
   constructor() {
     super({
       errorType: ErrorType.InvalidCredentials,
-      message: 'Invalid credentials'
+      message: 'Invalid credentials',
     });
   }
 }

@@ -20,26 +20,25 @@ export class RoleEntity extends BaseEntity {
     name: 'active',
     type: 'boolean',
     nullable: false,
-    default: true
+    default: true,
   })
   active: boolean;
 
-  @ManyToMany(
-    type => PermissionEntity,
-    permission => permission.id,
-    { lazy: true, cascade: true }
-  )
+  @ManyToMany((type) => PermissionEntity, (permission) => permission.id, {
+    lazy: true,
+    cascade: true,
+  })
   @JoinTable({
     schema: 'admin',
     name: 'roles_permissions',
     joinColumn: {
       name: 'role_id',
-      referencedColumnName: 'id'
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
       name: 'permission_id',
-      referencedColumnName: 'id'
-    }
+      referencedColumnName: 'id',
+    },
   })
   permissions: Promise<PermissionEntity[]>;
 
@@ -47,5 +46,4 @@ export class RoleEntity extends BaseEntity {
     super();
     Object.assign(this, role);
   }
-
 }

@@ -9,7 +9,6 @@ import { HttpExceptionFilter } from '@common/exeptions';
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
-  
 
   app.use(helmet());
   app.use(compression());
@@ -19,13 +18,12 @@ const bootstrap = async () => {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new HttpResponseInterceptor());
   app.useGlobalPipes(new ValidationPipe());
- 
-  
+
   app.setGlobalPrefix(AppModule.apiPrefix);
   configSwagger(app, AppModule.apiVersion);
   await app.listen(AppModule.port);
   return AppModule.port;
-}
+};
 
 bootstrap().then((port: number) => {
   Logger.log(`Application running on port: ${port}`, 'Main');

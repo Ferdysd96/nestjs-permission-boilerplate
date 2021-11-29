@@ -6,7 +6,7 @@ export abstract class BaseEntity {
     type: 'timestamp with time zone',
     default: 'now()',
     update: false,
-    nullable: false
+    nullable: false,
   })
   createdAt: Date;
 
@@ -15,7 +15,7 @@ export abstract class BaseEntity {
     type: 'timestamp with time zone',
     default: 'now()',
     onUpdate: 'now()',
-    nullable: false
+    nullable: false,
   })
   updatedAt: Date;
 }
