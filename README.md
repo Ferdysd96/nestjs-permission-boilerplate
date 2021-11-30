@@ -12,7 +12,7 @@ This is a basic [Nest](https://github.com/nestjs/nest) boilerplate project built
 
 ## Installation
 - make sure you have [node.js](https://nodejs.org/) installed version 11+
-- copy `.env examaple` to `.env` and set environments for use
+- copy `.env.examaple` to `.env` and set environments for use
 ```bash
 # install nodejs packages
 $ npm install
@@ -47,7 +47,7 @@ $ npm run test:cov
 Postgres is the database we use in the project, on the other hand you can install the package for your database and start enjoying.
 
 ```bash
-# run docker
+# create database 
 $ docker-compose up
 
 # generate database structure
@@ -99,8 +99,9 @@ src
 │  ├── database.module.ts
 │  └── database.providers.ts
 ├── helpers
-│  ├── hash.helper.ts
-│  └── pagination.helper.ts
+│  └── hash.helper.ts
+├── libs
+│  └── pagination
 ├── modules
 │  ├── admin
 │  │  ├── access
