@@ -1,5 +1,5 @@
 import { ConflictException } from '@nestjs/common';
-import { ErrorType } from '../enums';
+import { ErrorType } from '../../enums';
 
 export class PermissionExistsException extends ConflictException {
   constructor(slug: string) {

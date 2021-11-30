@@ -1,4 +1,4 @@
-import { PaginationRequest } from '@common/interfaces';
+import { PaginationRequest } from '@libs/pagination';
 import { EntityRepository, Repository } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
 

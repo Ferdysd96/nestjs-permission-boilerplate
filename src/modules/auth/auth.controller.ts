@@ -6,6 +6,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { SkipAuth } from '.';
 import {
   AuthCredentialsRequestDto,
   ValidateTokenResponseDto,
@@ -16,6 +17,7 @@ import {
 } from './dtos';
 import { TokenService, AuthService } from './services';
 
+@SkipAuth()
 @ApiTags('Auth')
 @Controller({
   path: 'auth',

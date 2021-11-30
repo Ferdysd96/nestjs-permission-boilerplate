@@ -11,7 +11,7 @@ const description =
  * Setup swagger in the application
  * @param app {INestApplication}
  */
-export const configSwagger = (app: INestApplication, apiVersion: string) => {
+export const SwaggerConfig = (app: INestApplication, apiVersion: string) => {
   const options = new DocumentBuilder()
     .setTitle(title)
     .setDescription(description)

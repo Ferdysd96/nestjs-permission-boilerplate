@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { ErrorType } from '@common/enums';
-import { InvalidCredentialsException, DisabledUserException } from '@common/exeptions';
+import { InvalidCredentialsException, DisabledUserException } from '@common/http/exceptions';
 import { UserStatus } from '@admin/access/users/user-status.enum';
 import { UserEntity } from '@admin/access/users/user.entity';
 import { AuthCredentialsRequestDto, LoginResponseDto, JwtPayload } from '../dtos';

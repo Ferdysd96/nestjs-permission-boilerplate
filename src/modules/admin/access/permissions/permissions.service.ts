@@ -1,13 +1,11 @@
 import { InternalServerErrorException, RequestTimeoutException, NotFoundException, Injectable } from '@nestjs/common';
 import { CreatePermissionRequestDto, UpdatePermissionRequestDto, PermissionResponseDto } from './dtos';
+import { Pagination, PaginationResponseDto, PaginationRequest } from '@libs/pagination';
 import { PermissionsRepository } from './permissions.repository';
-import { PermissionExistsException } from '@common/exeptions';
-import { PaginationRequest } from '@common/interfaces';
+import { PermissionExistsException } from '@common/http/exceptions';
 import { PermissionMapper } from './permission.mapper';
-import { PaginationResponseDto } from '@common/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DBErrorCode } from '@common/enums';
-import { Pagination } from '@helpers';
 import { TimeoutError } from 'rxjs';
 
 @Injectable()

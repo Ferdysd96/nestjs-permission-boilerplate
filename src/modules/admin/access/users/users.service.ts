@@ -1,13 +1,16 @@
 import { InternalServerErrorException, RequestTimeoutException, NotFoundException, Injectable } from '@nestjs/common';
 import { ChangePasswordRequestDto, CreateUserRequestDto, UpdateUserRequestDto, UserResponseDto } from './dtos';
-import { InvalidCurrentPasswordException, ForeignKeyConflictException, UserExistsException } from '@common/exeptions';
-import { PaginationRequest } from '@common/interfaces';
-import { PaginationResponseDto } from '@common/dtos';
+import {
+  InvalidCurrentPasswordException,
+  ForeignKeyConflictException,
+  UserExistsException,
+} from '@common/http/exceptions';
+import { Pagination, PaginationRequest, PaginationResponseDto } from '@libs/pagination';
 import { UsersRepository } from './users.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { HashHelper, Pagination } from '@helpers';
 import { DBErrorCode } from '@common/enums';
 import { UserMapper } from './users.mapper';
+import { HashHelper } from '@helpers';
 import { TimeoutError } from 'rxjs';
 
 @Injectable()

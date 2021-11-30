@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { ErrorType } from '../enums';
+import { ErrorType } from '../../enums';
 
 export class InvalidCurrentPasswordException extends ForbiddenException {
   constructor() {

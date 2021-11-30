@@ -1,15 +1,13 @@
 import { ValidationPipe, ParseIntPipe, Controller, UseGuards, Param, Body, Get, Post, Put } from '@nestjs/common';
+import { ApiPaginatedResponse, PaginationParams, PaginationRequest, PaginationResponseDto } from '@libs/pagination';
 import { ApiConflictResponse, ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UpdateRoleRequestDto, CreateRoleRequestDto, RoleResponseDto } from './dtos';
-import { PermissionsGuard, JwtAuthGuard, Permissions, TOKEN_NAME } from '@auth';
-import { ApiGlobalResponse, ApiPaginatedResponse, PaginationParams } from '@common/decorators';
-import { PaginationRequest } from '@common/interfaces';
-import { PaginationResponseDto } from '@common/dtos';
+import { ApiGlobalResponse } from '@common/decorators';
 import { RolesService } from '../roles/roles.service';
+import { Permissions, TOKEN_NAME } from '@auth';
 
 @ApiTags('Roles')
 @ApiBearerAuth(TOKEN_NAME)
-@UseGuards(JwtAuthGuard, PermissionsGuard)
 @Controller({
   path: 'access/roles',
   version: '1',

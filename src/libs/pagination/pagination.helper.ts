@@ -1,5 +1,5 @@
-import { PaginationResponseDto } from '../common/dtos/pagination-response.dto';
-import { PaginationRequest } from '../common/interfaces/pagination-request.interface';
+import { PaginationResponseDto } from './pagination-response.dto';
+import { PaginationRequest } from './interfaces';
 
 export class Pagination {
   /**

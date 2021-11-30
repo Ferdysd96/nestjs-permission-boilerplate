@@ -4,7 +4,11 @@ import { UserStatus } from '@admin/access/users/user-status.enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { RefreshTokenExpiredException, AccessTokenExpiredException, InvalidTokenException } from '@common/exeptions';
+import {
+  RefreshTokenExpiredException,
+  AccessTokenExpiredException,
+  InvalidTokenException,
+} from '@common/http/exceptions';
 import { ValidateTokenResponseDto, JwtPayload, TokenDto } from '../dtos';
 import { TokenError, TokenType } from '../enums';
 

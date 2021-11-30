@@ -1,4 +1,4 @@
-import { PaginationRequest } from '@common/interfaces';
+import { PaginationRequest } from '@libs/pagination';
 import { EntityRepository, Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 
@@ -42,10 +42,10 @@ export class UsersRepository extends Repository<UserEntity> {
   /**
    * find user by username
    * @param username {string}
-   * @returns Promise<string>
+   * @returns Promise<UserEntity>
    */
   async findUserByUsername(username: string): Promise<UserEntity> {
-    return await this.createQueryBuilder('u')
+    return this.createQueryBuilder('u')
       .leftJoinAndSelect('u.roles', 'r', 'r.active = true')
       .leftJoinAndSelect('r.permissions', 'rp', 'rp.active = true')
       .leftJoinAndSelect('u.permissions', 'p', 'p.active = true')

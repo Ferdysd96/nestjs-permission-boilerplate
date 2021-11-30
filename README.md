@@ -47,6 +47,9 @@ $ npm run test:cov
 Postgres is the database we use in the project, on the other hand you can install the package for your database and start enjoying.
 
 ```bash
+# run docker
+$ docker-compose up
+
 # generate database structure
 $ npm run migrate
 
@@ -78,41 +81,43 @@ $ npm run seed
 ```
 src
 ├── common
-│   ├── decorators
-│   ├── dtos
-│   ├── enums
-│   ├── exeptions
-│   ├── interceptors
-│   └── interfaces
+│  ├── decorators
+│  ├── dtos
+│  ├── enums
+│  └── http
+│     ├── exceptions
+│     ├── http-error-type.ts
+│     ├── http-exception.filter.ts
+│     └── response.interceptor.ts
 ├── config
-│   └── swagger.config.ts
+│  └── swagger.config.ts
 ├── database
-│   ├── entities
-│   │   └── base.entity.ts
-│   ├── migrations
-    ├── seeds
-    ├── database.module.ts
-│   └── database.providers.ts
+│  ├── entities
+│  │  └── base.entity.ts
+│  ├── migrations
+│  ├── seeds
+│  ├── database.module.ts
+│  └── database.providers.ts
 ├── helpers
-│   ├── hash.helper.ts
-│   └── pagination.helper.ts
+│  ├── hash.helper.ts
+│  └── pagination.helper.ts
 ├── modules
-│   ├── admin
-│   │   ├── access
-│   │   │   ├── permissions
-│   │   │   ├── roles
-│   │   │   ├── users
-│   │   │   └── access.module.ts
-│   │   └── admin.module.ts    
-│   └── auth
-│      ├── decorators
-│      ├── dtos
-│      ├── enums
-│      ├── guards
-│      ├── services
-│      ├── auth.controller.ts
-│      ├── auth.module.ts
-│      └── jwt.strategy.ts
+│  ├── admin
+│  │  ├── access
+│  │  │  ├── permissions
+│  │  │  ├── roles
+│  │  │  ├── users
+│  │  │  └── access.module.ts
+│  │  └── admin.module.ts    
+│  └── auth
+│     ├── decorators
+│     ├── dtos
+│     ├── enums
+│     ├── guards
+│     ├── services
+│     ├── auth.controller.ts
+│     ├── auth.module.ts
+│     └── jwt.strategy.ts
 ├── app.module.ts
 └── main.ts
 ```

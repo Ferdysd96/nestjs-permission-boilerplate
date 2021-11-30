@@ -1,14 +1,12 @@
 import { InternalServerErrorException, RequestTimeoutException, NotFoundException, Injectable } from '@nestjs/common';
+import { ForeignKeyConflictException, RoleExistsException } from '@common/http/exceptions';
+import { Pagination, PaginationRequest, PaginationResponseDto } from '@libs/pagination';
 import { CreateRoleRequestDto, UpdateRoleRequestDto, RoleResponseDto } from './dtos';
-import { ForeignKeyConflictException, RoleExistsException } from '@common/exeptions';
-import { PaginationRequest } from '@common/interfaces';
 import { RolesRepository } from './roles.repository';
-import { PaginationResponseDto } from '@common/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DBErrorCode } from '@common/enums';
 import { RoleMapper } from './role.mapper';
 import { TimeoutError } from 'rxjs';
-import { Pagination } from '@helpers';
 
 @Injectable()
 export class RolesService {

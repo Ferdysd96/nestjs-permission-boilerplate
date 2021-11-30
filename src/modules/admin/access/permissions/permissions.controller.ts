@@ -1,15 +1,13 @@
 import { ValidationPipe, ParseIntPipe, Controller, UseGuards, Param, Body, Get, Post, Put } from '@nestjs/common';
+import { ApiPaginatedResponse, PaginationParams, PaginationRequest, PaginationResponseDto } from '@libs/pagination';
+import { CreatePermissionRequestDto, UpdatePermissionRequestDto, PermissionResponseDto } from './dtos';
 import { ApiConflictResponse, ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { SuperUserGuard, Permissions, TOKEN_NAME } from '@auth';
-import { ApiPaginatedResponse, ApiGlobalResponse, PaginationParams } from '@common/decorators';
-import { CreatePermissionRequestDto, UpdatePermissionRequestDto, PermissionResponseDto } from './dtos';
 import { PermissionsService } from './permissions.service';
-import { PaginationRequest } from '@common/interfaces';
-import { PaginationResponseDto } from '@common/dtos';
+import { ApiGlobalResponse } from '@common/decorators';
 
 @ApiTags('Permissions')
 @ApiBearerAuth(TOKEN_NAME)
-@UseGuards()
 @Controller({
   path: 'access/permissions',
   version: '1',
@@ -25,13 +23,13 @@ export class PermissionsController {
     example: 'admin',
   })
   @ApiPaginatedResponse(PermissionResponseDto)
-  /* @Permissions(
-        'admin.access.permissions.read',
-        'admin.access.permissions.create',
-        'admin.access.permissions.update',
-        'admin.access.roles.create',
-        'admin.access.roles.update'
-    ) */
+  @Permissions(
+    'admin.access.permissions.read',
+    'admin.access.permissions.create',
+    'admin.access.permissions.update',
+    'admin.access.roles.create',
+    'admin.access.roles.update',
+  )
   @Get()
   public getPermissions(
     @PaginationParams() pagination: PaginationRequest,

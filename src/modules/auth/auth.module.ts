@@ -1,15 +1,15 @@
 import { UsersRepository } from '../admin/access/users/users.repository';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TokenService } from './services/token.service';
-import { AuthService } from './services/auth.service';
+import { JwtAuthGuard, PermissionsGuard } from './guards';
+import { TokenService, AuthService } from './services';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
-import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtStrategy } from './jwt.strategy';
+import { APP_GUARD } from '@nestjs/core';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
-@Global()
 @Module({
   imports: [
     ConfigModule,
@@ -29,7 +29,19 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, TokenService],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    TokenService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionsGuard,
+    },
+  ],
   exports: [JwtStrategy, PassportModule, TokenService, AuthService],
 })
 export class AuthModule {}

@@ -1,3 +1,3 @@
-import { configSwagger } from './swagger.config';
+import { SwaggerConfig } from './swagger.config';
 
-export { configSwagger };
+export { SwaggerConfig };

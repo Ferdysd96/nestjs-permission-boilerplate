@@ -17,10 +17,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     if (!errorType) {
       errorType = HttpErrorType[status];
-      errorType = errorType ? errorType : 'UNEXPECTED_ERROR';
+      errorType = errorType ?? 'UNEXPECTED_ERROR';
     }
 
     response.status(status).json({
+      statusCode: status,
       errorType,
       message,
       timestamp: new Date().getTime(),

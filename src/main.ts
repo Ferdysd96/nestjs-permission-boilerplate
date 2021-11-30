@@ -1,11 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
+import { HttpResponseInterceptor, HttpExceptionFilter } from '@common/http';
 import * as compression from 'compression';
+import { AppModule } from './app.module';
+import { SwaggerConfig } from '@config';
 import * as helmet from 'helmet';
-import { configSwagger } from '@config';
-import { HttpResponseInterceptor } from '@common/interceptors';
-import { HttpExceptionFilter } from '@common/exeptions';
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
@@ -20,7 +19,7 @@ const bootstrap = async () => {
   app.useGlobalPipes(new ValidationPipe());
 
   app.setGlobalPrefix(AppModule.apiPrefix);
-  configSwagger(app, AppModule.apiVersion);
+  SwaggerConfig(app, AppModule.apiVersion);
   await app.listen(AppModule.port);
   return AppModule.port;
 };

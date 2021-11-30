@@ -1,16 +1,14 @@
 import { ValidationPipe, ParseUUIDPipe, Controller, UseGuards, Param, Post, Body, Get, Put } from '@nestjs/common';
-import { ApiConflictResponse, ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { PermissionsGuard, JwtAuthGuard, CurrentUser, Permissions, TOKEN_NAME } from '@auth';
+import { ApiPaginatedResponse, PaginationParams, PaginationRequest, PaginationResponseDto } from '@libs/pagination';
 import { ChangePasswordRequestDto, CreateUserRequestDto, UpdateUserRequestDto, UserResponseDto } from './dtos';
-import { ApiGlobalResponse, ApiPaginatedResponse, PaginationParams } from '@common/decorators';
-import { PaginationRequest } from '@common/interfaces';
-import { PaginationResponseDto } from '@common/dtos';
+import { ApiConflictResponse, ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { CurrentUser, Permissions, TOKEN_NAME } from '@auth';
+import { ApiGlobalResponse } from '@common/decorators';
 import { UsersService } from './users.service';
 import { UserEntity } from './user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth(TOKEN_NAME)
-@UseGuards(JwtAuthGuard, PermissionsGuard)
 @Controller({
   path: 'access/users',
   version: '1',

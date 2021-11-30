@@ -1,4 +1,4 @@
-import { ResponseDto } from '../dtos';
+import { ResponseDto } from '../../../common/dtos';
 import { applyDecorators, Type } from '@nestjs/common';
 import {
   ApiOkResponse,
@@ -10,7 +10,7 @@ import {
   ApiInternalServerErrorResponse,
   ApiQuery,
 } from '@nestjs/swagger';
-import { PaginationResponseDto } from '../dtos/pagination-response.dto';
+import { PaginationResponseDto } from '../pagination-response.dto';
 
 export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
   return applyDecorators(

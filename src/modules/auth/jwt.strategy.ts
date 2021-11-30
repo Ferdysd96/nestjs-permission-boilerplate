@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { JwtPayload } from './dtos';
-import { DisabledUserException, InvalidCredentialsException } from '@common/exeptions';
+import { DisabledUserException, InvalidCredentialsException } from '@common/http/exceptions';
 import { ErrorType } from '@common/enums';
 
 @Injectable()

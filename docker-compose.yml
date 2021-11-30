@@ -1,14 +1,16 @@
-version: '3.8'
+version: '3.7'
 
 services:
-  db:
-    image: postgres
-    restart: always
+  boilerplate_db:
+    container_name: boilerplate_db
+    image: postgres:12.3-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
+      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
+      - POSTGRES_USER=${TYPEORM_USERNAME}
+      - POSTGRES_DB=${TYPEORM_DATABASE}
+      - PG_DATA=/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - ${TYPEORM_PORT}:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
 volumes:

@@ -12,7 +12,7 @@ const defaultConnection = (config: ConfigService): TypeOrmModuleOptions => ({
   username: config.get('TYPEORM_USERNAME'),
   password: config.get('TYPEORM_PASSWORD'),
   database: config.get('TYPEORM_DATABASE'),
-  autoLoadEntities: config.get('TYPEORM_AUTOLOAD'),
+  autoLoadEntities: config.get('TYPEORM_AUTOLOAD') == 'true',
   synchronize: config.get('TYPEORM_SYNCHRONIZE') == 'true',
   logging: config.get('TYPEORM_LOGGING') == 'true',
 });

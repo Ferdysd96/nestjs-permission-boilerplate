@@ -5,14 +5,14 @@ export class PaginationResponseDto<T> {
   currentPage: number;
   @ApiProperty({ example: 0 })
   skippedRecords: number;
-  @ApiProperty({ example: 2 })
+  @ApiProperty({ example: 1 })
   totalPages: number;
-  @ApiProperty({ example: true })
+  @ApiProperty({ example: false })
   hasNext: boolean;
   @ApiProperty()
   content: T[];
-  @ApiProperty({ example: 5 })
+  @ApiProperty({ example: 1 })
   payloadSize: number;
-  @ApiProperty({ example: 9 })
+  @ApiProperty({ example: 1 })
   totalRecords: number;
 }
